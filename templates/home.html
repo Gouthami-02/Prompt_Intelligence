@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+<h1>Prompt_Intelligence</h1>
+
+<p>
+Transform simple prompts into powerful AI instructions
+</p>
+<form method="POST">
+    {% csrf_token %}
+
+    <textarea
+        name="prompt"
+        placeholder="Enter your prompt here..."
+        rows="10"></textarea>
+
+    <br><br>
+
+    <button type="submit">
+        Optimize Prompt
+    </button>
+
+</form>
+{% if optimized_prompt %}
+
+<div class="result">
+
+    <h2>Optimized Prompt</h2>
+
+    <p>{{ optimized_prompt }}</p>
+
+</div>
+
+{% endif %}
+
+</div>
+
+{% endblock %}
