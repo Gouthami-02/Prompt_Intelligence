@@ -8,38 +8,63 @@ Home
 
 <div class="card">
 
-<h1>Prompt_Intelligence</h1>
+    <h1>AI Prompt Optimizer</h1>
 
-<p>
-Transform simple prompts into powerful AI instructions
-</p>
-<form method="POST">
-    {% csrf_token %}
+    <form method="POST">
 
-    <textarea
-        name="prompt"
-        placeholder="Enter your prompt here..."
-        rows="10"></textarea>
+        {% csrf_token %}
 
-    <br><br>
+        <textarea
+            name="prompt"
+            rows="10"
+            placeholder="Enter your prompt here..."></textarea>
 
-    <button type="submit">
-        Optimize Prompt
-    </button>
+        <br><br>
 
-</form>
-{% if optimized_prompt %}
+        <button type="submit">
+            Optimize Prompt
+        </button>
+
+    </form>
+
+</div>
+
+{% if result %}
 
 <div class="result">
 
-    <h2>Optimized Prompt</h2>
+<h2>Optimized Prompt</h2>
 
-    <p>{{ optimized_prompt }}</p>
+<p>{{ result.optimized_prompt }}</p>
+
+<hr>
+
+<h2>Quality Score</h2>
+
+<h1>{{ result.quality_score }}/100</h1>
+
+<hr>
+
+<h2>Category</h2>
+
+<p>{{ result.category }}</p>
+
+<hr>
+
+<h2>Suggestions</h2>
+
+<ul>
+
+{% for suggestion in result.suggestions %}
+
+<li>{{ suggestion }}</li>
+
+{% endfor %}
+
+</ul>
 
 </div>
 
 {% endif %}
-
-</div>
 
 {% endblock %}

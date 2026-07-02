@@ -1,65 +1,63 @@
 import os
+import json
 
 from django.shortcuts import render
-
 from dotenv import load_dotenv
 import google.generativeai as genai
 
-# Load .env file
 load_dotenv()
 
-# Configure Gemini
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-# Create model
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 
 def home(request):
 
-    optimized_prompt = ""
+    result = {}
 
     if request.method == "POST":
 
         prompt = request.POST.get("prompt")
 
         try:
-            response = model.generate_content(
-              f"""
-               You are an AI Prompt Engineer.
 
-                Analyze the following prompt.
+            response = model.generate_content(f"""
+You are an expert Prompt Engineer.
 
-                Prompt:
-                  {prompt}
+Analyze the following prompt.
 
-                 Return the result in this format:
+Prompt:
+{prompt}
 
-                 Optimized Prompt:
-                 ...
+Return ONLY valid JSON.
 
-                 Quality Score:
-                 /100
+Example:
 
-                 Category:
-                   ...
+{{
+    "optimized_prompt":"Write a detailed Python program...",
+    "quality_score":85,
+    "category":"Coding",
+    "suggestions":[
+        "Add input format",
+        "Mention output",
+        "Specify constraints",
+        "Provide an example"
+    ]
+}}
 
-                 Suggestions:
-                 1.
-                 2.
-                 3.
-                 4.
+Return ONLY JSON.
+""")
 
-                 """
-                 )
-
-            optimized_prompt = response.text
+            result = json.loads(response.text)
 
         except Exception as e:
-            optimized_prompt = f"Error: {e}"
 
-    return render(
-        request,
-        "home.html",
-        {"optimized_prompt": optimized_prompt},
-    )
+            result = {
+                "optimized_prompt": "Error",
+                "quality_score": 0,
+                "category": "Error",
+                "suggestions": [str(e)]
+            }
+
+    return render(request, "home.html", {"result": result})

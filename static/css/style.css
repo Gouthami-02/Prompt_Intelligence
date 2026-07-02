@@ -138,3 +138,34 @@ pre{
     line-height:1.8;
     color:white;
 }
+pre{
+    white-space:pre-wrap;
+    font-size:18px;
+    line-height:1.8;
+    color:white;
+}
+.result{
+    margin-top:40px;
+    background:#1e293b;
+    padding:30px;
+    border-radius:15px;
+}
+
+.result h2{
+    color:#8b5cf6;
+    margin-top:20px;
+}
+
+.result h1{
+    color:#00ff99;
+}
+
+.result ul{
+    margin-left:20px;
+    line-height:2;
+}
+
+hr{
+    margin:20px 0;
+    border:1px solid #374151;
+}
