@@ -23,34 +23,51 @@ def home(request):
         try:
 
             response = model.generate_content(f"""
-You are an expert Prompt Engineer.
+            You are an expert Prompt Engineer.
 
-Analyze the following prompt.
+            Analyze the following prompt.
 
-Prompt:
-{prompt}
+            Prompt:
+            {prompt}
 
-Return ONLY valid JSON.
+            Score the prompt using these rules:
 
-Example:
+            90-100 = Excellent (Very detailed, clear, specific)
+            70-89 = Good (Mostly clear but missing a few details)
+            50-69 = Average (Basic prompt with some missing information)
+            30-49 = Poor (Very vague)
+            0-29 = Very Poor (Almost no information)
 
-{{
-    "optimized_prompt":"Write a detailed Python program...",
-    "quality_score":85,
-    "category":"Coding",
-    "suggestions":[
-        "Add input format",
-        "Mention output",
-        "Specify constraints",
-        "Provide an example"
-    ]
-}}
+            Return ONLY valid JSON in this format:
 
-Return ONLY JSON.
-""")
+            {{
+               "optimized_prompt": "",
+               "quality_score": 85,
+               "category": "",
+               "suggestions": [
+                  "Suggestion 1",
+                  "Suggestion 2",
+                  "Suggestion 3",
+                  "Suggestion 4"
+                ]
+            }}
 
-            result = json.loads(response.text)
+             Return ONLY JSON. Do not include markdown (```json) or explanations.
+             """)
 
+            print(response.text)
+            
+            clean_text = response.text.strip()
+
+            if clean_text.startswith("```json"):
+             clean_text = clean_text.replace("```json", "", 1)
+
+            if clean_text.endswith("```"):
+              clean_text = clean_text[:-3]
+
+            clean_text = clean_text.strip()
+
+            result = json.loads(clean_text)
         except Exception as e:
 
             result = {

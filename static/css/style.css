@@ -169,3 +169,36 @@ hr{
     margin:20px 0;
     border:1px solid #374151;
 }
+.score-circle{
+
+    width:150px;
+
+    height:150px;
+
+    border:10px solid #8b5cf6;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin:30px auto;
+
+    font-size:45px;
+
+    color:#00ff99;
+
+    font-weight:bold;
+
+}
+
+h3{
+
+    text-align:center;
+
+    color:white;
+
+}
