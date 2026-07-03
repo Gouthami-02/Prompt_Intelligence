@@ -14,23 +14,33 @@
 <nav>
 
     <div class="logo">
-        Prompt_Intelligence
+        AI Prompt Optimizer
     </div>
 
     <ul>
+        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
 
-        <li><a href="#">Home</a></li>
+        <li><a href="{% url 'home' %}">Home</a></li>
 
         <li><a href="{% url 'history' %}">History</a></li>
 
-        <li><a href="#">Templates</a></li>
+        {% if user.is_authenticated %}
 
-        <li><a href="#">About</a></li>
+            <li>Hello, {{ user.username }}</li>
+
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+
+        {% else %}
+
+            <li><a href="{% url 'login' %}">Login</a></li>
+
+            <li><a href="{% url 'signup' %}">Signup</a></li>
+
+        {% endif %}
 
     </ul>
 
 </nav>
-
 <div class="container">
 
 {% block content %}

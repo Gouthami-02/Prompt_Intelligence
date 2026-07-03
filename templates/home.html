@@ -35,7 +35,15 @@ Home
 
 <h2>Optimized Prompt</h2>
 
-<p>{{ result.optimized_prompt }}</p>
+<textarea id="optimizedPrompt" readonly rows="10">
+{{ result.optimized_prompt }}
+</textarea>
+
+<br><br>
+
+<button type="button" onclick="copyPrompt()">
+    📋 Copy Prompt
+</button>
 
 <hr>
 
@@ -72,5 +80,17 @@ Home
 </div>
 
 {% endif %}
+<script>
+function copyPrompt() {
+    const prompt = document.getElementById("optimizedPrompt");
+
+    prompt.select();
+    prompt.setSelectionRange(0, 99999);
+
+    navigator.clipboard.writeText(prompt.value);
+
+    alert("Prompt copied successfully!");
+}
+</script>
 
 {% endblock %}

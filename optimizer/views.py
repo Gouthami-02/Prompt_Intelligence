@@ -6,6 +6,8 @@ from .models import PromptHistory
 from dotenv import load_dotenv
 import google.generativeai as genai
 from django.shortcuts import redirect
+from django.db.models import Avg
+from django.contrib.auth.decorators import login_required
 
 
 load_dotenv()
@@ -14,7 +16,7 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 model = genai.GenerativeModel("gemini-2.5-flash")
 
-
+@login_required
 def home(request):
 
     result = {}
@@ -72,6 +74,7 @@ def home(request):
 
             result = json.loads(clean_text)
             PromptHistory.objects.create(
+               user= request.user,
                original_prompt=prompt,
                optimized_prompt=result["optimized_prompt"],
                quality_score=result["quality_score"],
@@ -87,10 +90,10 @@ def home(request):
             }
 
     return render(request, "home.html", {"result": result})
-
+@login_required
 def history(request):
 
-    prompts = PromptHistory.objects.all().order_by("-created_at")
+    prompts = PromptHistory.objects.filter(user= request.user).order_by("-created_at")
 
     return render(
         request,
@@ -104,5 +107,27 @@ def delete_prompt(request, id):
     prompt.delete()
 
     return redirect("history")
+
+
+@login_required
+def dashboard(request):
+
+    total_prompts = PromptHistory.objects.filter(user=request.user).count()
+
+    average_score = PromptHistory.objects.filter(
+        user=request.user
+    ).aggregate(Avg("quality_score"))
+
+    recent_prompts = PromptHistory.objects.filter(
+        user=request.user
+    ).order_by("-created_at")[:5]
+
+    context = {
+        "total_prompts": total_prompts,
+        "average_score": average_score["quality_score__avg"],
+        "recent_prompts": recent_prompts,
+    }
+
+    return render(request, "dashboard.html", context)
 
 
