@@ -8,6 +8,8 @@ import google.generativeai as genai
 from django.shortcuts import redirect
 from django.db.models import Avg
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from .pdf_utils import create_pdf
 
 
 load_dotenv()
@@ -129,5 +131,39 @@ def dashboard(request):
     }
 
     return render(request, "dashboard.html", context)
+@login_required
+def export_pdf(request):
+
+    latest = PromptHistory.objects.filter(
+        user=request.user
+    ).last()
+
+    if not latest:
+        return HttpResponse("No prompt found.")
+
+    filepath = "prompt_report.pdf"
+
+    data = {
+        "original_prompt": latest.original_prompt,
+        "optimized_prompt": latest.optimized_prompt,
+        "quality_score": latest.quality_score,
+        "category": latest.category,
+        "suggestions": [
+            "Review the optimized prompt.",
+            "Add more context if needed.",
+            "Use examples for better results.",
+            "Test the prompt with AI."
+        ]
+    }
+
+    create_pdf(filepath, data)
+
+    with open(filepath, "rb") as pdf:
+        response = HttpResponse(
+            pdf.read(),
+            content_type="application/pdf"
+        )
+        response["Content-Disposition"] = 'attachment; filename="Prompt_Report.pdf"'
+        return response
 
 
