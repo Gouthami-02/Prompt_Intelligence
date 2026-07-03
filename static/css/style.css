@@ -1,204 +1,145 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-body{
-    background:#0f172a;
-    color:white;
+body {
+    background: #0f172a;
+    color: white;
 }
 
-nav{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 60px;
-    background:#111827;
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background: #111827;
 }
 
-.logo{
-    font-size:28px;
-    font-weight:bold;
-    color:#8b5cf6;
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #8b5cf6;
 }
 
-nav ul{
-    display:flex;
-    list-style:none;
+nav ul {
+    display: flex;
+    list-style: none;
 }
 
-nav ul li{
-    margin-left:30px;
+nav ul li {
+    margin-left: 30px;
 }
 
-nav ul li a{
-    text-decoration:none;
-    color:white;
+nav ul li a {
+    color: white;
+    text-decoration: none;
 }
 
-.container{
-    width:80%;
-    margin:auto;
-    margin-top:60px;
+.container {
+    width: 85%;
+    margin: 40px auto;
 }
 
-.card{
-
-    background:#1e293b;
-
-    padding:40px;
-
-    border-radius:15px;
-
-    text-align:center;
-
+.card {
+    background: #1e293b;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
 }
 
-h1{
-
-    color:#8b5cf6;
-
-    margin-bottom:20px;
-
+textarea {
+    width: 100%;
+    height: 220px;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    font-size: 18px;
 }
 
-textarea{
+button {
+    margin-top: 20px;
+    background: #8b5cf6;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
 
+button:hover {
+    background: #7c3aed;
+}
+
+.result {
+    margin-top: 40px;
+    background: #1e293b;
+    padding: 40px;
+    border-radius: 15px;
+}
+
+.result h2 {
+    color: #8b5cf6;
+    margin-bottom: 20px;
+}
+
+.result p {
+    line-height: 1.8;
+}
+
+.result ul {
+    margin-left: 20px;
+    line-height: 2;
+}
+
+hr {
+    margin: 30px 0;
+    border: 1px solid #374151;
+}
+
+.score-circle {
+    width: 160px;
+    height: 160px;
+    border: 12px solid #8b5cf6;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+    color: #00ff99;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+h3 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+.history-table{
     width:100%;
-
-    padding:20px;
-
-    border:none;
-
-    border-radius:10px;
-
-    margin-top:20px;
-
-    font-size:18px;
-
+    border-collapse:collapse;
+    margin-top:30px;
 }
 
-button{
-
+.history-table th{
     background:#8b5cf6;
-
     color:white;
-
-    border:none;
-
-    padding:15px 40px;
-
-    border-radius:10px;
-
-    font-size:18px;
-
-    cursor:pointer;
-
+    padding:15px;
 }
 
-button:hover{
-
-    background:#7c3aed;
-
-}
-.result{
-
-    margin-top:40px;
-
-    background:#111827;
-
-    padding:30px;
-
-    border-radius:10px;
-
-    text-align:left;
-
+.history-table td{
+    padding:15px;
+    border-bottom:1px solid #374151;
 }
 
-.result h2{
-
-    color:#8b5cf6;
-
-    margin-bottom:15px;
-
-}
-
-.result p{
-
-    line-height:1.8;
-
-    white-space:pre-wrap;
-
-}
-pre{
-    white-space:pre-wrap;
-    font-size:18px;
-    line-height:1.8;
-    color:white;
-}
-pre{
-    white-space:pre-wrap;
-    font-size:18px;
-    line-height:1.8;
-    color:white;
-}
-.result{
-    margin-top:40px;
+.history-table tr:nth-child(even){
     background:#1e293b;
-    padding:30px;
-    border-radius:15px;
 }
 
-.result h2{
-    color:#8b5cf6;
-    margin-top:20px;
-}
-
-.result h1{
-    color:#00ff99;
-}
-
-.result ul{
-    margin-left:20px;
-    line-height:2;
-}
-
-hr{
-    margin:20px 0;
-    border:1px solid #374151;
-}
-.score-circle{
-
-    width:150px;
-
-    height:150px;
-
-    border:10px solid #8b5cf6;
-
-    border-radius:50%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    margin:30px auto;
-
-    font-size:45px;
-
-    color:#00ff99;
-
-    font-weight:bold;
-
-}
-
-h3{
-
-    text-align:center;
-
-    color:white;
-
+.history-table tr:hover{
+    background:#334155;
 }

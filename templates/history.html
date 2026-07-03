@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}
+History
+{% endblock %}
+
+{% block content %}
+
+<h1>Prompt History</h1>
+
+<table class="history-table">
+
+    <thead>
+        <tr>
+            <th>Original Prompt</th>
+            <th>Category</th>
+            <th>Score</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for prompt in prompts %}
+
+        <tr>
+            <td>{{ prompt.original_prompt }}</td>
+            <td>{{ prompt.category }}</td>
+            <td>{{ prompt.quality_score }}/100</td>
+            <td>{{ prompt.created_at|date:"d M Y H:i" }}</td>
+            <td>
+                <a href="{% url 'delete_prompt' prompt.id %}">
+                    Delete
+                </a>
+            </td>
+        </tr>
+
+    {% empty %}
+
+        <tr>
+            <td colspan="4">No prompts found.</td>
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

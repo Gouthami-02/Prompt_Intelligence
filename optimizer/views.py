@@ -2,8 +2,11 @@ import os
 import json
 
 from django.shortcuts import render
+from .models import PromptHistory
 from dotenv import load_dotenv
 import google.generativeai as genai
+from django.shortcuts import redirect
+
 
 load_dotenv()
 
@@ -56,7 +59,7 @@ def home(request):
              """)
 
             print(response.text)
-            
+
             clean_text = response.text.strip()
 
             if clean_text.startswith("```json"):
@@ -68,6 +71,12 @@ def home(request):
             clean_text = clean_text.strip()
 
             result = json.loads(clean_text)
+            PromptHistory.objects.create(
+               original_prompt=prompt,
+               optimized_prompt=result["optimized_prompt"],
+               quality_score=result["quality_score"],
+               category=result["category"]
+            )
         except Exception as e:
 
             result = {
@@ -78,3 +87,22 @@ def home(request):
             }
 
     return render(request, "home.html", {"result": result})
+
+def history(request):
+
+    prompts = PromptHistory.objects.all().order_by("-created_at")
+
+    return render(
+        request,
+        "history.html",
+        {"prompts": prompts}
+    )
+def delete_prompt(request, id):
+
+    prompt = PromptHistory.objects.get(id=id)
+
+    prompt.delete()
+
+    return redirect("history")
+
+
