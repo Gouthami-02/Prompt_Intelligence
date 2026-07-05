@@ -14,10 +14,21 @@
 <nav>
 
     <div class="logo">
-        AI Prompt Optimizer
+
+        <img src="{% static 'images/logo.png' %}" alt="Logo">
+
+        <div class="logo-text">
+
+            <h2>AI Prompt Optimizer</h2>
+
+            <span>Smart Prompt Engineering</span>
+
+        </div>
+
     </div>
 
     <ul>
+
         <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
 
         <li><a href="{% url 'home' %}">Home</a></li>
@@ -26,7 +37,9 @@
 
         {% if user.is_authenticated %}
 
-            <li>Hello, {{ user.username }}</li>
+            <li class="username">
+                Hello, {{ user.username }}
+            </li>
 
             <li><a href="{% url 'logout' %}">Logout</a></li>
 
