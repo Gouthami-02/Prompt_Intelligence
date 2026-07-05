@@ -167,3 +167,29 @@ h3 {
     color:#00ff99;
     font-size:48px;
 }
+.dashboard{
+    display:flex;
+    gap:25px;
+    margin:30px 0;
+    flex-wrap:wrap;
+}
+
+.card-box{
+    flex:1;
+    min-width:220px;
+    background:#1e293b;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 0 10px rgba(0,0,0,.3);
+}
+
+.card-box h2{
+    color:#8b5cf6;
+    margin-bottom:15px;
+}
+
+.card-box h1{
+    font-size:40px;
+    color:#22c55e;
+}

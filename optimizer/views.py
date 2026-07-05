@@ -1,12 +1,11 @@
 import os
 import json
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import PromptHistory
 from dotenv import load_dotenv
 import google.generativeai as genai
-from django.shortcuts import redirect
-from django.db.models import Avg
+from django.db.models import Avg,Count
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .pdf_utils import create_pdf
@@ -95,38 +94,48 @@ def home(request):
 @login_required
 def history(request):
 
-    prompts = PromptHistory.objects.filter(user= request.user).order_by("-created_at")
+    search = request.GET.get("search")
+
+    prompts = PromptHistory.objects.filter(user=request.user)
+
+    if search:
+        prompts = prompts.filter(
+            original_prompt__icontains=search
+        )
+
+    prompts = prompts.order_by("-created_at")
 
     return render(
         request,
         "history.html",
-        {"prompts": prompts}
+        {
+            "prompts": prompts,
+            "search": search
+        }
     )
-def delete_prompt(request, id):
-
-    prompt = PromptHistory.objects.get(id=id)
-
-    prompt.delete()
-
-    return redirect("history")
 
 
 @login_required
 def dashboard(request):
 
-    total_prompts = PromptHistory.objects.filter(user=request.user).count()
+    prompts = PromptHistory.objects.filter(user=request.user)
 
-    average_score = PromptHistory.objects.filter(
-        user=request.user
-    ).aggregate(Avg("quality_score"))
+    total_prompts = prompts.count()
 
-    recent_prompts = PromptHistory.objects.filter(
-        user=request.user
-    ).order_by("-created_at")[:5]
+    average_score = prompts.aggregate(
+        Avg("quality_score")
+    )["quality_score__avg"]
+
+    total_categories = prompts.values(
+        "category"
+    ).distinct().count()
+
+    recent_prompts = prompts.order_by("-created_at")[:5]
 
     context = {
         "total_prompts": total_prompts,
-        "average_score": average_score["quality_score__avg"],
+        "average_score": round(average_score or 0),
+        "total_categories": total_categories,
         "recent_prompts": recent_prompts,
     }
 
@@ -165,5 +174,14 @@ def export_pdf(request):
         )
         response["Content-Disposition"] = 'attachment; filename="Prompt_Report.pdf"'
         return response
+    
+@login_required
+def delete_prompt(request, id):
+
+    prompt = PromptHistory.objects.get(id=id, user=request.user)
+
+    prompt.delete()
+
+    return redirect("history")
 
 

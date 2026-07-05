@@ -17,12 +17,12 @@ Dashboard
 
     <div class="card-box">
         <h2>Average Score</h2>
+        <h1>{{ average_score }}/100</h1>
+    </div>
 
-        {% if average_score %}
-            <h1>{{ average_score|floatformat:0 }}/100</h1>
-        {% else %}
-            <h1>0/100</h1>
-        {% endif %}
+    <div class="card-box">
+        <h2>Categories</h2>
+        <h1>{{ total_categories }}</h1>
     </div>
 
 </div>
@@ -31,33 +31,27 @@ Dashboard
 
 <table class="history-table">
 
-    <tr>
-        <th>Prompt</th>
-        <th>Score</th>
-        <th>Category</th>
-    </tr>
+<tr>
+    <th>Prompt</th>
+    <th>Category</th>
+    <th>Score</th>
+</tr>
 
-    {% for prompt in recent_prompts %}
+{% for prompt in recent_prompts %}
 
-    <tr>
+<tr>
+    <td>{{ prompt.original_prompt }}</td>
+    <td>{{ prompt.category }}</td>
+    <td>{{ prompt.quality_score }}/100</td>
+</tr>
 
-        <td>{{ prompt.original_prompt }}</td>
+{% empty %}
 
-        <td>{{ prompt.quality_score }}/100</td>
+<tr>
+    <td colspan="3">No prompts found.</td>
+</tr>
 
-        <td>{{ prompt.category }}</td>
-
-    </tr>
-
-    {% empty %}
-
-    <tr>
-
-        <td colspan="3">No prompts yet.</td>
-
-    </tr>
-
-    {% endfor %}
+{% endfor %}
 
 </table>
 
