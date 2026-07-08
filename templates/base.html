@@ -4,61 +4,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Prompt_Intelligence{% endblock %}</title>
+    <title>{% block title %}AI Prompt Optimizer{% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
 
-<nav>
+<div class="layout">
 
-    <div class="logo">
+    <!-- Sidebar -->
+    <aside class="sidebar">
 
-        <img src="{% static 'images/aibrain.png' %}" alt="Logo" class="logo-img">
+        <div class="logo">
 
-        <div class="logo-text">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
 
-            <h2>AI Prompt Optimizer</h2>
+            <div class="logo-text">
+                <h2>AI Prompt</h2>
+                <span>Optimizer</span>
+            </div>
 
-           
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="{% url 'dashboard' %}">
+                    <img src="{% static 'images/dashboard.svg' %}" alt="Dashboard" class="menu-icon">
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/home.svg' %}" alt="Home" class="menu-icon">
+                    <span>Optimize Prompt</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'history' %}">
+                    <img src="{% static 'images/history.svg' %}" alt="History" class="menu-icon">
+                    <span>History</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'export_pdf' %}">
+                    <img src="{% static 'images/document.svg' %}" alt="Document" class="menu-icon">
+                    <span>Export PDF</span>
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="logout">
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+
+    </aside>
+
+    <!-- Main -->
+    <div class="main">
+
+        <header class="topbar">
+
+            <div class="top-title">
+                <h2>Hello, {{ user.username }}</h2>
+            </div>
+
+            <div class="top-right">
+
+                <img src="{% static 'images/moon.svg' %}" class="top-icon" alt="Dark Mode">
+
+                <img src="{% static 'images/bell.svg' %}" class="top-icon" alt="Notifications">
+
+            </div>
+
+        </header>
+
+        <div class="content">
+
+            {% block content %}
+            {% endblock %}
 
         </div>
 
     </div>
-
-    <ul>
-
-        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-
-        <li><a href="{% url 'home' %}">Home</a></li>
-
-        <li><a href="{% url 'history' %}">History</a></li>
-
-        {% if user.is_authenticated %}
-
-            <li class="username">
-                Hello, {{ user.username }}
-            </li>
-
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-
-        {% else %}
-
-            <li><a href="{% url 'login' %}">Login</a></li>
-
-            <li><a href="{% url 'signup' %}">Signup</a></li>
-
-        {% endif %}
-
-    </ul>
-
-</nav>
-<div class="container">
-
-{% block content %}
-
-{% endblock %}
 
 </div>
 

@@ -6,98 +6,138 @@ Home
 
 {% block content %}
 
-<div class="card">
+<h1 class="welcome-title">Welcome Back 👋</h1>
+<p class="welcome-subtitle">
+    Optimize your prompts and get better AI responses.
+</p>
 
-    <h1>AI Prompt Optimizer</h1>
+<div class="home-grid">
 
-    <form method="POST">
+    <!-- Left Side -->
 
-        {% csrf_token %}
+    <div class="left-panel">
 
-        <textarea
-            name="prompt"
-            rows="10"
-            placeholder="Enter your prompt here..."></textarea>
+        <div class="card">
 
-        <br><br>
+            <h2>✨ Optimize Your Prompt</h2>
 
-        <button type="submit">
-            Optimize Prompt
-        </button>
+            <form method="POST">
 
-    </form>
+                {% csrf_token %}
+
+                <textarea
+                    name="prompt"
+                    rows="10"
+                    placeholder="Enter your prompt here..."></textarea>
+
+                <br><br>
+
+                <button type="submit">
+                    Optimize Prompt
+                </button>
+
+            </form>
+
+        </div>
+
+        {% if result %}
+
+        <div class="card result-card">
+
+            <h2>Optimization Result</h2>
+
+            <textarea
+                id="optimizedPrompt"
+                readonly
+                rows="8">{{ result.optimized_prompt }}</textarea>
+
+            <br><br>
+
+            <button
+                type="button"
+                onclick="copyPrompt()">
+
+                📋 Copy Prompt
+
+            </button>
+
+            <a href="{% url 'export_pdf' %}">
+                <button type="button">
+
+                    📄 Export PDF
+
+                </button>
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- Right Side -->
+
+    {% if result %}
+
+    <div class="right-panel">
+
+        <div class="card score-card">
+
+            <h3>Quality Score</h3>
+
+            <div class="score-circle">
+
+                {{ result.quality_score }}
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Category</h3>
+
+            <p>{{ result.category }}</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Suggestions</h3>
+
+            <ul>
+
+                {% for suggestion in result.suggestions %}
+
+                <li>{{ suggestion }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    {% endif %}
 
 </div>
 
-{% if result %}
-
-<div class="result">
-
-<h2>Optimized Prompt</h2>
-
-<textarea id="optimizedPrompt" readonly rows="10">
-{{ result.optimized_prompt }}
-</textarea>
-
-<br><br>
-
-<button type="button" onclick="copyPrompt()">
-    📋 Copy Prompt
-</button>
-<br><br>
-
-<a href="{% url 'export_pdf' %}">
-    <button type="button">
-        📄 Export PDF
-    </button>
-</a>
-
-<hr>
-
-<h2>Quality Score</h2>
-
-<div class="score-circle">
-
-    <span>{{ result.quality_score }}</span>
-
-</div>
-
-<h3>{{ result.quality_score }}/100</h3>
-
-<hr>
-
-<h2>Category</h2>
-
-<p>{{ result.category }}</p>
-
-<hr>
-
-<h2>Suggestions</h2>
-
-<ul>
-
-{% for suggestion in result.suggestions %}
-
-<li>{{ suggestion }}</li>
-
-{% endfor %}
-
-</ul>
-
-</div>
-
-{% endif %}
 <script>
-function copyPrompt() {
-    const prompt = document.getElementById("optimizedPrompt");
 
-    prompt.select();
-    prompt.setSelectionRange(0, 99999);
+function copyPrompt(){
 
-    navigator.clipboard.writeText(prompt.value);
+    navigator.clipboard.writeText(
 
-    alert("Prompt copied successfully!");
+        document.getElementById("optimizedPrompt").value
+
+    );
+
+    alert("Copied Successfully!");
+
 }
+
 </script>
 
 {% endblock %}
+
