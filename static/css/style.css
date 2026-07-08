@@ -137,11 +137,11 @@ h3 {
 }
 
 .history-table tr:nth-child(even){
-    background:#1e293b;
+    background:#115dd9;
 }
 
 .history-table tr:hover{
-    background:#334155;
+    background:#042e69;
 }
 .dashboard{
     display:flex;
@@ -208,9 +208,9 @@ nav{
     gap:15px;
 }
 
-.logo img{
-    width:60px;
-    height:60px;
+.logo-img{
+    width:10px;
+    height:10px;
     object-fit:contain;
 }
 
